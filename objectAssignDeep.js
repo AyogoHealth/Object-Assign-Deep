@@ -19,7 +19,19 @@ function getTypeOf (input) {
 	}
 
 	else if (typeof input === 'object') {
-		return (Array.isArray(input) ? 'array' : 'object');
+		if (Array.isArray(input)) {
+			return 'array';
+		}
+
+		if (input instanceof Date) {
+			return 'date';
+		}
+
+		if (input instanceof File) {
+			return 'file';
+		}
+
+		return 'object';
 	}
 
 	return typeof input;
@@ -31,14 +43,24 @@ function getTypeOf (input) {
  */
 function cloneValue (value) {
 
+	const valueType = getTypeOf(value);
+
 	// The value is an object so lets clone it.
-	if (getTypeOf(value) === 'object') {
+	if (valueType === 'object') {
 		return quickCloneObject(value);
 	}
 
 	// The value is an array so lets clone it.
-	else if (getTypeOf(value) === 'array') {
+	else if (valueType === 'array') {
 		return quickCloneArray(value);
+	}
+
+	else if (valueType === 'date') {
+		return new Date(value.valueOf());
+	}
+
+	else if (valueType === 'file') {
+		return new File([value], value.name, { type: value.type });
 	}
 
 	// Any other value can just be copied.
