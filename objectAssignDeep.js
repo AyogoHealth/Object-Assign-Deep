@@ -43,7 +43,7 @@ function getTypeOf (input) {
  */
 function cloneValue (value) {
 
-	const valueType = getTypeOf(value);
+	var valueType = getTypeOf(value);
 
 	// The value is an object so lets clone it.
 	if (valueType === 'object') {
@@ -81,7 +81,7 @@ function quickCloneArray (input) {
  */
 function quickCloneObject (input) {
 
-	const output = {};
+	var output = {};
 
 	for (const key in input) {
 		if (!input.hasOwnProperty(key)) { continue; }
@@ -98,28 +98,28 @@ function quickCloneObject (input) {
  */
 function executeDeepMerge (target, _objects = [], _options = {}) {
 
-	const options = {
+	var options = {
 		arrayBehaviour: _options.arrayBehaviour || 'replace',  // Can be "merge" or "replace".
 	};
 
 	// Ensure we have actual objects for each.
-	const objects = _objects.map(object => object || {});
-	const output = target || {};
+	var objects = _objects.map(object => object || {});
+	var output = target || {};
 
 	// Enumerate the objects and their keys.
 	for (let oindex = 0; oindex < objects.length; oindex++) {
-		const object = objects[oindex];
-		const keys = Object.keys(object);
+		var object = objects[oindex];
+		var keys = Object.keys(object);
 
 		for (let kindex = 0; kindex < keys.length; kindex++) {
-			const key = keys[kindex];
-			const value = object[key];
-			const type = getTypeOf(value);
-			const existingValueType = getTypeOf(output[key]);
+			var key = keys[kindex];
+			var value = object[key];
+			var type = getTypeOf(value);
+			var existingValueType = getTypeOf(output[key]);
 
 			if (type === 'object') {
 				if (existingValueType !== 'undefined') {
-					const existingValue = (existingValueType === 'object' ? output[key] : {});
+					var existingValue = (existingValueType === 'object' ? output[key] : {});
 					output[key] = executeDeepMerge({}, [existingValue, quickCloneObject(value)], options);
 				}
 				else {
@@ -129,7 +129,7 @@ function executeDeepMerge (target, _objects = [], _options = {}) {
 
 			else if (type === 'array') {
 				if (existingValueType === 'array') {
-					const newValue = quickCloneArray(value);
+					var newValue = quickCloneArray(value);
 					output[key] = (options.arrayBehaviour === 'merge' ? output[key].concat(newValue) : newValue);
 				}
 				else {
