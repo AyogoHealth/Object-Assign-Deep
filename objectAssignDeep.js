@@ -83,7 +83,7 @@ function quickCloneObject (input) {
 
 	var output = {};
 
-	for (const key in input) {
+	for (var key in input) {
 		if (!input.hasOwnProperty(key)) { continue; }
 
 		output[key] = cloneValue(input[key]);
@@ -107,11 +107,11 @@ function executeDeepMerge (target, _objects = [], _options = {}) {
 	var output = target || {};
 
 	// Enumerate the objects and their keys.
-	for (let oindex = 0; oindex < objects.length; oindex++) {
+	for (var oindex = 0; oindex < objects.length; oindex++) {
 		var object = objects[oindex];
 		var keys = Object.keys(object);
 
-		for (let kindex = 0; kindex < keys.length; kindex++) {
+		for (var kindex = 0; kindex < keys.length; kindex++) {
 			var key = keys[kindex];
 			var value = object[key];
 			var type = getTypeOf(value);
