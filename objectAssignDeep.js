@@ -27,7 +27,8 @@ function getTypeOf (input) {
 			return 'date';
 		}
 
-		if (input instanceof File) {
+		// Second condition used to workaround Cordova File plugin redefining 'File')
+		if ((input instanceof File) || (input.toString() === '[object File]')) {
 			return 'file';
 		}
 
